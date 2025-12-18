@@ -4,6 +4,7 @@ import com.onlinefooddelivery.order_service.dto.RestaurantResponse;
 import com.onlinefooddelivery.order_service.dto.RestaurantRequest;
 import com.onlinefooddelivery.order_service.dto.UserResponse;
 import com.onlinefooddelivery.order_service.entity.Order;
+import com.onlinefooddelivery.order_service.exceptions.OrderNotFound;
 import com.onlinefooddelivery.order_service.feignClient.RestaurantClient;
 import com.onlinefooddelivery.order_service.feignClient.UserClient;
 import com.onlinefooddelivery.order_service.repository.OrderRepository;
@@ -25,21 +26,22 @@ public class OrderServiceImpl implements OrderService{
     UserClient userClient;
 
     @Override
-    public Page<Order> getAllOrder(int pageNo, int pageSize, String sortBy) {
+    public Page<Order> getAllOrder(
+            int pageNo,
+            int pageSize,
+            String sortBy) {
         Pageable pageable= PageRequest.of(
                 pageNo,
                 pageSize,
                 Sort.by(sortBy).ascending());
         return repository.findAll(pageable);
     }
-
     @Override
     public Order getOrderById(Long id) {
         return repository.findById(id)
                 .orElseThrow(()->
-                        new RuntimeException("Order Not Found By Id: "+id));
+                        new OrderNotFound("Order Not Found By Id: "+id));
     }
-
     @Override
     public void deleteOrderById(Long id) {
         repository.deleteById(id);
@@ -48,7 +50,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Order createOrder(RestaurantRequest request) {
 
-        RestaurantResponse restaurantResponseesponse=
+        RestaurantResponse restaurantresponse=
                 restaurantClient
                         .getRestaurantByNameAndFood(request.getRestaurantName(),
                         request.getFoodName());
@@ -61,9 +63,9 @@ public class OrderServiceImpl implements OrderService{
         order.setUserMobile(userResponse.getUserMobile());
         order.setUserEmail(userResponse.getUserEmail());
         order.setUserAddress(userResponse.getUserAddress());
-        order.setRestaurantName(restaurantResponseesponse.getRestaurantName());
-        order.setFoodName(restaurantResponseesponse.getFoodName());
-        order.setTotalAmount(restaurantResponseesponse.getFoodPrice());
+        order.setRestaurantName(restaurantresponse.getRestaurantName());
+        order.setFoodName(restaurantresponse.getFoodName());
+        order.setTotalAmount(restaurantresponse.getFoodPrice());
 
         return repository.save(order);
     }

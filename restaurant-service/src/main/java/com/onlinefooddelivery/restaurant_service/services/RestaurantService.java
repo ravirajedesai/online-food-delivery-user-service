@@ -9,5 +9,7 @@ public interface RestaurantService {
     void deleteRestaurantById(Long id);
     Restaurant addRestaurant(Restaurant restaurant);
 
-    Restaurant getRestaurantByNameAndFood(String restaurantName, String foodName);
+    Restaurant getRestaurantByNameAndFood(
+            String restaurantName,
+            String foodName);
 }

@@ -1,5 +1,6 @@
 package com.onlinefooddelivery.user_service.services;
 
+import com.onlinefooddelivery.user_service.dto.UserResponse;
 import com.onlinefooddelivery.user_service.entity.Users;
 import org.springframework.data.domain.Page;
 
@@ -9,5 +10,5 @@ public interface UserServices {
     void deleteUserById(Long id);
     Users addUser (Users users);
 
-    Users getUserByUserName(String userName);
+    UserResponse getUserByUserName(String userName);
 }

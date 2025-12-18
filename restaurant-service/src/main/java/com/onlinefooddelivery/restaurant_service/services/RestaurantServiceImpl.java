@@ -2,6 +2,7 @@ package com.onlinefooddelivery.restaurant_service.services;
 
 
 import com.onlinefooddelivery.restaurant_service.entity.Restaurant;
+import com.onlinefooddelivery.restaurant_service.exception.RestaurantNotFound;
 import com.onlinefooddelivery.restaurant_service.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,7 +29,7 @@ public class RestaurantServiceImpl implements RestaurantService{
     public Restaurant getRestaurantById(Long id) {
         return repository.findById(id)
                 .orElseThrow(()->
-                        new RuntimeException("Restaurant Not Found with Id: "+id));
+                        new RestaurantNotFound("Restaurant Not Found with Id: "+id));
     }
 
     @Override
