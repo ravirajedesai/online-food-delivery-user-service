@@ -1,0 +1,25 @@
+# Java
+*.class
+*.log
+
+# Maven
+**/target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env / Secrets
+application*.yml
+application*.properties
+.env
