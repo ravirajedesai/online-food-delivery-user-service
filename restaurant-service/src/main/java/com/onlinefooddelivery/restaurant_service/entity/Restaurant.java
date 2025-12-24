@@ -22,6 +22,7 @@ public class Restaurant {
 
     @Column(nullable = false)
     private String restaurantLocation;
+    private String imageUrl;
 
     @Column(nullable = false)
     private Long foodId;

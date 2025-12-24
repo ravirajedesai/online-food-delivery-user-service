@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/restaurant")
@@ -45,5 +46,14 @@ public class RestaurantController {
         Restaurant restaurant=service
                 .getRestaurantByNameAndFood(restaurantName,foodName);
         return ResponseEntity.status(HttpStatus.OK).body(restaurant);
+    }
+    @PostMapping("/{id}/image")
+    public ResponseEntity<String>
+    uploadRestaurantImage(
+            @PathVariable Long id,
+            @PathVariable MultipartFile image
+            ){
+        String imageUrl=service.uploadImage(id,image);
+        return ResponseEntity.ok(imageUrl);
     }
 }
